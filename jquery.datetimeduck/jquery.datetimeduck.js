@@ -21,6 +21,7 @@
 	};
 
 	$.datepicker._defaults.clockType = 12;
+	$.datepicker._defaults.altFormatSeparator = ' ';
 
 	$.datepicker._getTimeText = function (inst, h, m) {
 		h = h || inst.selectedHour || 0;
