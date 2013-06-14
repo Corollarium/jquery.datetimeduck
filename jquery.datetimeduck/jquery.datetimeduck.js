@@ -8,7 +8,9 @@
  * http://edinborough.org/Duck-Punching-jQuery-UI-Datepicker-into-a-DateTimepicker
  * http://jsfiddle.net/hLTcB/8/
  * 
- * This file is in public domain
+ * Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
+ */
+
  */
 
 (function ($, undefined) {
