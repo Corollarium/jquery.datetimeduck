@@ -11,8 +11,6 @@
  * Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  */
 
- */
-
 (function ($, undefined) {
 	$.fn.datetimepicker = function (options) {
 		if(typeof options == typeof '') return this.datepicker.apply(this, arguments);
