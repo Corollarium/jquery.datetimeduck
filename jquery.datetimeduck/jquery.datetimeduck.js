@@ -179,8 +179,8 @@
 			groups.eq(groups.length-1).width(dpwidth/groups.length+lblTime.width());
 			
 			var height = table.height() - table.find('td:first').height() * 2;
-			var tdHour = $('<td/>').css({ height: height, marginTop: 10, paddingLeft: 20 }).attr('rowspan', numRows).prependTo(tbody);
 			var tdMin = $('<td/>').css({ height: height, marginTop: 10 }).attr('rowspan', numRows).prependTo(tbody);
+			var tdHour = $('<td/>').css({ height: height, marginTop: 10, paddingLeft: 20 }).attr('rowspan', numRows).prependTo(tbody);
 
 			var divHour = $('<div/>').appendTo(tdHour);
 			var divMin = $('<div/>').appendTo(tdMin);
