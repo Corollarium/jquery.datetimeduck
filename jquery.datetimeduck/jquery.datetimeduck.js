@@ -170,7 +170,7 @@
 			var tbody = table.find('tbody>tr:first');
 			var numRows = tbody.parent().children('tr').length;
 
-			var lblTime = $('<th colspan="2" style="white-space:nowrap">12:00 AM</th>').appendTo(thead);
+			var lblTime = $('<th colspan="2" style="white-space:nowrap">12:00 AM</th>').prependTo(thead);
 			lblTime.width(lblTime.width());
 			var dpwidth = inst.dpDiv.width();
 			inst.dpDiv.width(dpwidth + lblTime.width());
@@ -179,8 +179,8 @@
 			groups.eq(groups.length-1).width(dpwidth/groups.length+lblTime.width());
 			
 			var height = table.height() - table.find('td:first').height() * 2;
-			var tdHour = $('<td/>').css({ height: height, marginTop: 10, paddingLeft: 20 }).attr('rowspan', numRows).appendTo(tbody);
-			var tdMin = $('<td/>').css({ height: height, marginTop: 10 }).attr('rowspan', numRows).appendTo(tbody);
+			var tdHour = $('<td/>').css({ height: height, marginTop: 10, paddingLeft: 20 }).attr('rowspan', numRows).prependTo(tbody);
+			var tdMin = $('<td/>').css({ height: height, marginTop: 10 }).attr('rowspan', numRows).prependTo(tbody);
 
 			var divHour = $('<div/>').appendTo(tdHour);
 			var divMin = $('<div/>').appendTo(tdMin);

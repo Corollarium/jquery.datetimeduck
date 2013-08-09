@@ -2,7 +2,7 @@
   "name": "datetimeduck",
   "title": "jQuery DatetimeDuck Plugin",
   "description": "Simple, easy and fast plugin that extends JQuery UI date calendar to also have time slider (hour/minutes).",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/Corollarium/jquery.datetimeduck",
   "author": {
     "name": "Corollarium Tecnologia",
