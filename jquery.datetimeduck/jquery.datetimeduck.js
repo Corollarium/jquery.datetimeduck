@@ -1,14 +1,10 @@
 /**
  * Datetime plugin that alters JQuery's datetimepicker
  * 
- * http://corollarium.com
- * 
  * Based on
  * 
  * http://edinborough.org/Duck-Punching-jQuery-UI-Datepicker-into-a-DateTimepicker
  * http://jsfiddle.net/hLTcB/8/
- * 
- * Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  */
 
 (function ($, undefined) {
@@ -21,7 +17,6 @@
 	};
 
 	$.datepicker._defaults.clockType = 12;
-	$.datepicker._defaults.altFormatSeparator = ' ';
 
 	$.datepicker._getTimeText = function (inst, h, m) {
 		h = h || inst.selectedHour || 0;
@@ -60,7 +55,51 @@
 			altFormat = this._get(inst, "altFormat") || this._get(inst, "dateFormat");
 			date = this._getDate(inst);
 			dateStr = this.formatDate(altFormat, date, this._getFormatConfig(inst), this._get(inst, "altFormatSeparator"));
+			
+			if (altField.attr("data-basetype") === 'datetime') { // IF DATETIME ADD TIMEZONE OFFSET
+				if (!/T\d{2}:\d{2}:\d{2}/.test(dateStr)) { // missing time
+					dateStr = dateStr + "T" + getTimeStrFromDate(new Date(Date.now())); // put the current time
+				}
+				
+				var getOffset = function(date) {
+					var pad = function(number, length){
+						var str = "" + number;
+						while (str.length < length) {
+							str = '0' + str;
+						}
+						return str;
+					};
+					
+					var offset = date.getTimezoneOffset();
+					offset = (
+						(offset < 0 ? '+':'-') + // Note the reversed sign!
+						pad(parseInt(Math.abs(offset/60)), 2) +
+						pad(Math.abs(offset % 60), 2)
+					);
+					
+					return offset.replace(/(\d{2})$/, ":$1");
+				};
+				
+				dateStr = dateStr + getOffset(date);
+			}
+			
 			$(altField).each(function() { $(this).val(dateStr); }).trigger('blur');
+		}
+	};
+	
+	var getTimeStrFromDate = function(date) {
+		return date.toTimeString().split(" ")[0];
+	};
+	
+	var _setDate = $.datepicker._setDate;
+	$.datepicker._setDate = function(inst, date, noChange) {
+		date = new Date(date);
+		_setDate.apply(this, arguments);
+		
+		var altField = this._get(inst, "altField");
+		var inputCurrentVal = inst.input.val();
+		if (altField.attr("data-basetype") === 'datetime' && !/\s\d{2}:\d{2}:\d{2}/.test(inputCurrentVal)) {
+			inst.input.val(inputCurrentVal + " " + getTimeStrFromDate(date));
 		}
 	};
 
@@ -75,8 +114,15 @@
 	$.datepicker._getDate = /* overrides */function (inst) {
 		var date = _getDate.apply(this, arguments);
 
-		date.setHours(inst.selectedHour || inst.currentHour);
-		date.setMinutes(inst.selectedMinute || inst.currentMinute);
+		if (date) {
+			date.setHours(inst.selectedHour || inst.currentHour);
+			date.setMinutes(inst.selectedMinute || inst.currentMinute);
+		}
+		
+		if (!date || isNaN(date.getTime())) {
+			date = new Date(Date.now());
+		}
+		
 		return date;
 	};
 
