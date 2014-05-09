@@ -98,7 +98,7 @@
 		
 		var altField = this._get(inst, "altField");
 		var inputCurrentVal = inst.input.val();
-		if (altField.attr("data-basetype") === 'datetime' && !/\s\d{2}:\d{2}:\d{2}/.test(inputCurrentVal)) {
+		if (altField && altField.attr("data-basetype") === 'datetime' && !/\s\d{2}:\d{2}:\d{2}/.test(inputCurrentVal)) {
 			inst.input.val(inputCurrentVal + " " + getTimeStrFromDate(date));
 		}
 	};
