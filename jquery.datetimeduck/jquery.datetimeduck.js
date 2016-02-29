@@ -190,7 +190,7 @@
 
 		_updateDatepicker.apply(this, arguments);
 
-		inst.dpDiv.css({ zIndex: 1000 });
+		inst.dpDiv.css({ zIndex: 1000, width: "auto" });
 		if (buttons) {
 			var panel = inst.dpDiv.find('.ui-datepicker-buttonpane:first').html('');
 
