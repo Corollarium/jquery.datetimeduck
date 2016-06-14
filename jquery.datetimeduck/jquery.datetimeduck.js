@@ -257,10 +257,14 @@
 			}
 			else {
 				var $divHour = $('<label><select/>h</label>').appendTo(tdHour).find('select');
-				var $divMin = $('<label><input type="number" min="0" max="59" style="width: 2em"/>m</label>')
+				var $divMin = $('<label><input type="number" value="' + inst.selectedMinute +
+					'" min="0" max="59" style="width: 2em"/>m</label>')
 					.appendTo(tdMin).find('input');
 
+				inst.selectedHour = inst.selectedHour || inst.currentHour;
+				inst.selectedMinute = inst.selectedMinute || inst.currentMinute;
 				if (inst.settings.clockType == 12) {
+					// TODO: selected
 					$divHour.append('<option value="0">12am</option>');
 					for (var i = 1; i < 12; i++) {
 						$divHour.append('<option value="' + i + '">' + i + '</option>');
@@ -272,16 +276,20 @@
 				}
 				else {
 					for (var i = 0; i < 24; i++) {
-						$divHour.append('<option value="' + i + '">' + i + "</option>");
+						$divHour.append(
+							'<option value="' + i + '" ' +
+							(inst.selectedHour == i ? "selected" : "") +
+							'>' + i + "</option>"
+						);
 					}
 				}
 
 				$divHour.on('change', function() {
-					// TODO
+					inst.selectedHour = $(this).val();
 					lblTime.text($.datepicker._getTimeText(inst));
 				});
 				$divMin.on('change', function() {
-					// TODO
+					inst.selectedMinute = $(this).val();
 					lblTime.text($.datepicker._getTimeText(inst));
 				});
 			}
