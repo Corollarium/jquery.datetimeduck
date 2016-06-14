@@ -271,7 +271,7 @@
 					for (var i = 1; i < 12; i++) {
 						$divHour.append(
 							'<option value="' + i + '" ' +
-							(inst.selectedHour == i ? "selected" : "") + '>' + i + '</option>'
+							(inst.selectedHour == i ? "selected" : "") + '>' + i + 'am</option>'
 						);
 					}
 					$divHour.append(
@@ -280,7 +280,7 @@
 					for (var i = 1; i < 12; i++) {
 						$divHour.append(
 							'<option value="' + (i+12) + '" ' +
-							(inst.selectedHour == (i+12) ? "selected" : "") + '>' + i + '</option>'
+							(inst.selectedHour == (i+12) ? "selected" : "") + '>' + i + 'pm</option>'
 						);
 					}
 				}
