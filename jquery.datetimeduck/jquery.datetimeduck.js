@@ -31,7 +31,7 @@
 			css: {
 				float: 'right'
 			}
-	}
+		};
 
 		return this.datepicker(options);
 	};
