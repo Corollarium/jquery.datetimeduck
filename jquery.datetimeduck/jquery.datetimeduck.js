@@ -25,9 +25,10 @@
 		m = m || inst.selectedMinute || 0;
 
 		if (this._get(inst, 'clockType') == 12) {
-			return (h == 0 || h == 12 ? '12' : h >= 12 ? h - 12 : h)
-			+ ':' + (m < 10 ? '0' + m : m) + ':00' +
-			+ ' ' + (h < 12 ? 'AM' : 'PM');
+			var h2 = (h == 0 || h == 12 ? '12' : h >= 12 ? h - 12 : h);
+			return '' + (h2 < 10 ? '0' + h2 : '' + h2) +
+				':' + (m < 10 ? '0' + m : '' + m) + ':00' +
+				' ' + (h < 12 ? 'AM' : 'PM');
 		}
 		else {
 			return (h < 10 ? '0' + h : h) + ':' + (m < 10 ? '0' + m : m) + ':00';
