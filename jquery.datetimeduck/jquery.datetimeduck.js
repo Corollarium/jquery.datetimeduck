@@ -239,7 +239,7 @@
 
 			var $timeDiv = $('<div class="datepicker-time"></div>').insertAfter(table);
 
-			var lblTime = $('<time style="white-space:nowrap; padding-left: 20px;">12:00 AM</time>').prependTo($timeDiv);
+			var lblTime = $('<time style="white-space:nowrap; padding-left: 12px;">12:00 AM</time>').prependTo($timeDiv);
 			var dpwidth = inst.dpDiv.width();
 			inst.dpDiv.width(dpwidth + lblTime.width());
 			var groups = inst.dpDiv.find('.ui-datepicker-group');
@@ -250,12 +250,12 @@
 			var tdMin = $('<span/>').css({
 				height: height,
 				marginTop: 10,
-				paddingLeft: 20
+				paddingLeft: 12
 			}).prependTo($timeDiv);
 			var tdHour = $('<span/>').css({
 				height: height,
 				marginTop: 10,
-				paddingLeft: 20
+				paddingLeft: 12
 			}).prependTo($timeDiv);
 
 			if ("slider" == "slsls") {
@@ -327,10 +327,12 @@
 				$divHour.on('change', function() {
 					inst.selectedHour = $(this).val();
 					lblTime.text($.datepicker._getTimeText(inst));
+					inst.input.val($.datepicker._formatDate(inst));
 				});
 				$divMin.on('change', function() {
 					inst.selectedMinute = $(this).val();
 					lblTime.text($.datepicker._getTimeText(inst));
+					inst.input.val($.datepicker._formatDate(inst));
 				});
 				lblTime.text($.datepicker._getTimeText(inst));
 			}
