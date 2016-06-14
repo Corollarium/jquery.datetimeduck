@@ -20,11 +20,12 @@
 
 	$.datepicker._defaults.clockType = 12;
 
-	$.datepicker._getTimeText = function (inst, h, m) {
+	$.datepicker._getTimeText = function (inst, h, m, clockType) {
 		h = h || inst.selectedHour || 0;
 		m = m || inst.selectedMinute || 0;
+		clockType = clockType || this._get(inst, 'clockType') || 24;
 
-		if (this._get(inst, 'clockType') == 12) {
+		if (clockType == 12) {
 			var h2 = (h == 0 || h == 12 ? '12' : h >= 12 ? h - 12 : h);
 			return '' + (h2 < 10 ? '0' + h2 : '' + h2) +
 				':' + (m < 10 ? '0' + m : '' + m) + ':00' +
@@ -47,7 +48,11 @@
 			date.setMinutes(inst.selectedMinute || 0);
 		}
 
-		return formatDate.apply(this, arguments) + (showTime ? separator  + this._getTimeText(inst) : '');
+		// force 24h format if separator is not null or space
+		var hourFormat = (!separator || separator == ' ' ? null : 24);
+
+		return formatDate.apply(this, arguments) +
+			(showTime ? separator  + this._getTimeText(inst, null, null, hourFormat) : '');
 	};
 
 	var _updateAlternate = $.datepicker._updateAlternate;
