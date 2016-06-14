@@ -1,15 +1,17 @@
 /**
  * Datetime plugin that alters JQuery's datetimepicker
- * 
+ *
  * Based on
- * 
+ *
  * http://edinborough.org/Duck-Punching-jQuery-UI-Datepicker-into-a-DateTimepicker
  * http://jsfiddle.net/hLTcB/8/
  */
 
 (function ($, undefined) {
 	$.fn.datetimepicker = function (options) {
-		if(typeof options == typeof '') return this.datepicker.apply(this, arguments);
+		if(typeof options == typeof '') {
+			return this.datepicker.apply(this, arguments);
+		}
 		options = $.extend({}, options);
 		options.showTime = true;
 		options.constrainInput = false;
@@ -55,12 +57,12 @@
 			altFormat = this._get(inst, "altFormat") || this._get(inst, "dateFormat");
 			date = this._getDate(inst);
 			dateStr = this.formatDate(altFormat, date, this._getFormatConfig(inst), this._get(inst, "altFormatSeparator"));
-			
+
 			if (altField.attr("data-basetype") === 'datetime') { // IF DATETIME ADD TIMEZONE OFFSET
 				if (!/T\d{2}:\d{2}:\d{2}/.test(dateStr)) { // missing time
 					dateStr = dateStr + "T" + getTimeStrFromDate(new Date(Date.now())); // put the current time
 				}
-				
+
 				var getOffset = function(date) {
 					var pad = function(number, length){
 						var str = "" + number;
@@ -69,33 +71,33 @@
 						}
 						return str;
 					};
-					
+
 					var offset = date.getTimezoneOffset();
 					offset = (
 						(offset < 0 ? '+':'-') + // Note the reversed sign!
 						pad(parseInt(Math.abs(offset/60)), 2) +
 						pad(Math.abs(offset % 60), 2)
 					);
-					
+
 					return offset.replace(/(\d{2})$/, ":$1");
 				};
-				
+
 				dateStr = dateStr + getOffset(date);
 			}
-			
+
 			$(altField).each(function() { $(this).val(dateStr); }).trigger('blur');
 		}
 	};
-	
+
 	var getTimeStrFromDate = function(date) {
 		return date.toTimeString().split(" ")[0];
 	};
-	
+
 	var _setDate = $.datepicker._setDate;
 	$.datepicker._setDate = function(inst, date, noChange) {
 		date = new Date(date);
 		_setDate.apply(this, arguments);
-		
+
 		var altField = this._get(inst, "altField");
 		var inputCurrentVal = inst.input.val();
 		if (altField && altField.attr("data-basetype") === 'datetime' && !/\s\d{2}:\d{2}:\d{2}/.test(inputCurrentVal)) {
@@ -118,11 +120,11 @@
 			date.setHours(inst.selectedHour || inst.currentHour);
 			date.setMinutes(inst.selectedMinute || inst.currentMinute);
 		}
-		
+
 		if (!date || isNaN(date.getTime())) {
 			date = new Date(Date.now());
 		}
-		
+
 		return date;
 	};
 
@@ -135,12 +137,12 @@
 		if ($.isArray(time)) {
 			h = parseFloat(time[1]);
 			m = parseFloat((time[2] || '').replace(':', ''));
-			if (isNaN(h)) h = 0;
-			if (isNaN(m)) m = 0;
+			if (isNaN(h)){h = 0;}
+			if (isNaN(m)){m = 0;}
 
 			if ((settings.clockType || $.datepicker._defaults.clockType) == 12) {
-				if (h == 12) h = 0;
-				if (time[0].toLowerCase().indexOf('p') > -1) h += 12;
+				if (h == 12){h = 0;}
+				if (time[0].toLowerCase().indexOf('p') > -1){h += 12;}
 			}
 
 			value = value.replace(time[0], '');
@@ -149,7 +151,7 @@
 		var val = parseDate.apply(this, arguments);
 		val.setHours(h);
 		val.setMinutes(m);
-		
+
 		return val;
 	};
 
@@ -176,7 +178,7 @@
 		inst.currentHour = inst.selectedHour = (dates ? date.getHours() : 0);
 		inst.currentMinute = inst.selectedMinute = (dates ? date.getMinutes() : 0);
 		this._adjustInstDate(inst);
-		this._updateDatepicker(inst);	
+		this._updateDatepicker(inst);
 	};
 
 	var _updateDatepicker = $.datepicker._updateDatepicker;
@@ -186,7 +188,7 @@
 
 		var self = this;
 
-		if (buttons) inst.settings['showButtonPanel'] = true;
+		if (buttons){inst.settings['showButtonPanel'] = true;}
 
 		_updateDatepicker.apply(this, arguments);
 
@@ -199,17 +201,15 @@
 
 				(function (func) {
 					if (typeof func == 'object') {
-						if (func.attr)
-							button.attr(func.attr);
-						if (func.css)
-							button.css(func.css);
+						if (func.attr){button.attr(func.attr);}
+						if (func.css){button.css(func.css);}
 						func = func.click || function () { };
 					}
 					button.text(i).click(function () { func.apply(self, ['#' + inst.id, inst]); }).appendTo(panel);
 				})(buttons[i]);
 			}
 		}
-	   
+
 		if (showTime) {
 			var table = inst.dpDiv.find('table:last');
 			var thead = table.find('thead>tr:first');
@@ -223,36 +223,68 @@
 			var groups = inst.dpDiv.find('.ui-datepicker-group');
 			groups.width(dpwidth/groups.length);
 			groups.eq(groups.length-1).width(dpwidth/groups.length+lblTime.width());
-			
+
 			var height = table.height() - table.find('td:first').height() * 2;
 			var tdMin = $('<td/>').css({ height: height, marginTop: 10 }).attr('rowspan', numRows).prependTo(tbody);
 			var tdHour = $('<td/>').css({ height: height, marginTop: 10, paddingLeft: 20 }).attr('rowspan', numRows).prependTo(tbody);
 
-			var divHour = $('<div/>').appendTo(tdHour);
-			var divMin = $('<div/>').appendTo(tdMin);
+			if ("slider" == "slsls") {
+				var divHour = $('<div/>').appendTo(tdHour);
+				var divMin = $('<div/>').appendTo(tdMin);
 
-			inst.selectedHour = inst.selectedHour || inst.currentHour;
-			inst.selectedMinute = inst.selectedMinute || inst.currentMinute;
-			lblTime.text($.datepicker._getTimeText(inst));
+				inst.selectedHour = inst.selectedHour || inst.currentHour;
+				inst.selectedMinute = inst.selectedMinute || inst.currentMinute;
+				lblTime.text($.datepicker._getTimeText(inst));
 
-			divHour.slider({ min: 0, max: 23, value: inst.selectedHour, orientation: 'vertical', slide: function (e, ui) {
-				inst.selectedHour = ui.value;
-				if (inst.input) {
-					inst.input.val($.datepicker._formatDate(inst));
-					$.datepicker._updateAlternate(inst);
+				divHour.slider({ min: 0, max: 23, value: inst.selectedHour, orientation: 'vertical', slide: function (e, ui) {
+					inst.selectedHour = ui.value;
+					if (inst.input) {
+						inst.input.val($.datepicker._formatDate(inst));
+						$.datepicker._updateAlternate(inst);
+					}
+					lblTime.text($.datepicker._getTimeText(inst));
 				}
-				lblTime.text($.datepicker._getTimeText(inst));
-			}
-			});
-			divMin.slider({ min: 0, max: 59, value: inst.selectedMinute, orientation: 'vertical', slide: function (e, ui) {
-				inst.selectedMinute = ui.value;
-				if (inst.input) {
-					inst.input.val($.datepicker._formatDate(inst));
-					$.datepicker._updateAlternate(inst);
+				});
+				divMin.slider({ min: 0, max: 59, value: inst.selectedMinute, orientation: 'vertical', slide: function (e, ui) {
+					inst.selectedMinute = ui.value;
+					if (inst.input) {
+						inst.input.val($.datepicker._formatDate(inst));
+						$.datepicker._updateAlternate(inst);
+					}
+					lblTime.text($.datepicker._getTimeText(inst));
 				}
-				lblTime.text($.datepicker._getTimeText(inst));
+				});
 			}
-			});
+			else {
+				var $divHour = $('<select/>').appendTo(tdHour);
+				var $divMin = $('<input type="number" min="0" max="59" style="width: 2em"/>').appendTo(tdMin);
+
+				if (inst.settings.clockType == 12) {
+					$divHour.append('<option value="0">12am</option>');
+					for (var i = 1; i < 12; i++) {
+						$divHour.append('<option value="' + i + '">' + i + '</option>');
+					}
+					$divHour.append('<option value="12">12pm</option>');
+					for (var i = 1; i < 12; i++) {
+						$divHour.append('<option value="' + (i+12) + '">' + i + "</option>");
+					}
+
+				}
+				else {
+					for (var i = 0; i < 24; i++) {
+						$divHour.append('<option value="' + i + '">' + i + "</option>");
+					}
+				}
+
+				$divHour.on('change', function() {
+					// TODO
+					lblTime.text($.datepicker._getTimeText(inst));
+				});
+				$divMin.on('change', function() {
+					// TODO
+					lblTime.text($.datepicker._getTimeText(inst));
+				});
+			}
 		}
 	};
 })(jQuery);
