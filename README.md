@@ -36,3 +36,6 @@ It accepts all options from http://jqueryui.com/datepicker/ and a few others:
 $('#datetime').datetimepicker({clockType: 24});
 </script>
 ```
+
+![Screenshot](https://raw.githubusercontent.com/Corollarium/jquery.datetimeduck/master/screenshot.png "Screenshot")
+
