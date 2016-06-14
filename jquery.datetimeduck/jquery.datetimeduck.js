@@ -15,6 +15,7 @@
 		options = $.extend({}, options);
 		options.showTime = true;
 		options.constrainInput = false;
+		options.timeLabel = options.timeLabel || 'Time: ';
 		options.onSelect = function() {
 			$(this).data('datepicker').inline = true;
 		};
@@ -23,9 +24,14 @@
 		};
 
 		options.buttons = options.buttons || {};
-		options.buttons.Ok = function(sel) {
-			this._hideDatepicker();
-		};
+		options.buttons.Ok = {
+			click: function(sel) {
+				this._hideDatepicker();
+			},
+			css: {
+				float: 'right'
+			}
+	}
 
 		return this.datepicker(options);
 	};
@@ -203,6 +209,7 @@
 	$.datepicker._updateDatepicker = /* overrides */function (inst) {
 		var showTime = this._get(inst, 'showTime');
 		var buttons = this._get(inst, 'buttons');
+		var timeLabel = this._get(inst, 'timeLabel');
 
 		var self = this;
 
@@ -223,11 +230,17 @@
 
 				(function (func) {
 					if (typeof func == 'object') {
-						if (func.attr){button.attr(func.attr);}
-						if (func.css){button.css(func.css);}
+						if (func.attr){
+							button.attr(func.attr);
+						}
+						if (func.css){
+							button.css(func.css);
+						}
 						func = func.click || function () { };
 					}
-					button.text(i).click(function () { func.apply(self, ['#' + inst.id, inst]); }).appendTo(panel);
+					button.text(i).click(function () {
+						func.apply(self, ['#' + inst.id, inst]);
+					}).appendTo(panel);
 				})(buttons[i]);
 			}
 		}
@@ -239,18 +252,15 @@
 
 			var $timeDiv = $('<div class="datepicker-time"></div>').insertAfter(table);
 
-			var lblTime = $('<time style="white-space:nowrap; padding-left: 12px;">12:00 AM</time>').prependTo($timeDiv);
 			var dpwidth = inst.dpDiv.width();
-			inst.dpDiv.width(dpwidth + lblTime.width());
 			var groups = inst.dpDiv.find('.ui-datepicker-group');
 			groups.width(dpwidth / groups.length);
-			groups.eq(groups.length - 1).width(dpwidth / groups.length + lblTime.width());
+			groups.eq(groups.length - 1).width(dpwidth / groups.length);
 
 			var height = table.height() - table.find('td:first').height() * 2;
 			var tdMin = $('<span/>').css({
 				height: height,
-				marginTop: 10,
-				paddingLeft: 12
+				marginTop: 10
 			}).prependTo($timeDiv);
 			var tdHour = $('<span/>').css({
 				height: height,
@@ -258,84 +268,56 @@
 				paddingLeft: 12
 			}).prependTo($timeDiv);
 
-			if ("slider" == "slsls") {
-				var divHour = $('<div/>').appendTo(tdHour);
-				var divMin = $('<div/>').appendTo(tdMin);
+			tdHour.append(timeLabel);
+			var $divHour = $('<label><select/></label>').appendTo(tdHour).find('select');
+			tdHour.append(
+				'<span class="datepickerui-time-separator" style="padding-left: 5px; padding-right: 5px">:</span>'
+			);
+			var $divMin = $('<label><input type="number" value="' + inst.selectedMinute +
+				'" min="0" max="59" style="width: 2em"/></label>').
+				appendTo(tdMin).find('input');
 
-				inst.selectedHour = inst.selectedHour || inst.currentHour;
-				inst.selectedMinute = inst.selectedMinute || inst.currentMinute;
-				lblTime.text($.datepicker._getTimeText(inst));
-
-				divHour.slider({ min: 0, max: 23, value: inst.selectedHour, orientation: 'vertical', slide: function (e, ui) {
-					inst.selectedHour = ui.value;
-					if (inst.input) {
-						inst.input.val($.datepicker._formatDate(inst));
-						$.datepicker._updateAlternate(inst);
-					}
-					lblTime.text($.datepicker._getTimeText(inst));
+			inst.selectedHour = inst.selectedHour || inst.currentHour;
+			inst.selectedMinute = inst.selectedMinute || inst.currentMinute;
+			if (inst.settings.clockType == 12) {
+				// TODO: selected
+				$divHour.append(
+					'<option value="0" ' + (inst.selectedHour == 0 ? "selected" : "") + '>12 am</option>'
+				);
+				for (var i = 1; i < 12; i++) {
+					$divHour.append(
+						'<option value="' + i + '" ' +
+						(inst.selectedHour == i ? "selected" : "") + '>' + i + ' am</option>'
+					);
 				}
-				});
-				divMin.slider({ min: 0, max: 59, value: inst.selectedMinute, orientation: 'vertical', slide: function (e, ui) {
-					inst.selectedMinute = ui.value;
-					if (inst.input) {
-						inst.input.val($.datepicker._formatDate(inst));
-						$.datepicker._updateAlternate(inst);
-					}
-					lblTime.text($.datepicker._getTimeText(inst));
+				$divHour.append(
+					'<option value="12" ' + (inst.selectedHour == 0 ? "selected" : "") + '>12 pm</option>'
+				);
+				for (var i = 1; i < 12; i++) {
+					$divHour.append(
+						'<option value="' + (i+12) + '" ' +
+						(inst.selectedHour == (i+12) ? "selected" : "") + '>' + i + ' pm</option>'
+					);
 				}
-				});
 			}
 			else {
-				var $divHour = $('<label><select/>h</label>').appendTo(tdHour).find('select');
-				var $divMin = $('<label><input type="number" value="' + inst.selectedMinute +
-					'" min="0" max="59" style="width: 2em"/>m</label>').
-					appendTo(tdMin).find('input');
-
-				inst.selectedHour = inst.selectedHour || inst.currentHour;
-				inst.selectedMinute = inst.selectedMinute || inst.currentMinute;
-				if (inst.settings.clockType == 12) {
-					// TODO: selected
+				for (var i = 0; i < 24; i++) {
 					$divHour.append(
-						'<option value="0" ' + (inst.selectedHour == 0 ? "selected" : "") + '>12am</option>'
+						'<option value="' + i + '" ' +
+						(inst.selectedHour == i ? "selected" : "") +
+						'>' + i + "</option>"
 					);
-					for (var i = 1; i < 12; i++) {
-						$divHour.append(
-							'<option value="' + i + '" ' +
-							(inst.selectedHour == i ? "selected" : "") + '>' + i + 'am</option>'
-						);
-					}
-					$divHour.append(
-						'<option value="12" ' + (inst.selectedHour == 0 ? "selected" : "") + '>12pm</option>'
-					);
-					for (var i = 1; i < 12; i++) {
-						$divHour.append(
-							'<option value="' + (i+12) + '" ' +
-							(inst.selectedHour == (i+12) ? "selected" : "") + '>' + i + 'pm</option>'
-						);
-					}
 				}
-				else {
-					for (var i = 0; i < 24; i++) {
-						$divHour.append(
-							'<option value="' + i + '" ' +
-							(inst.selectedHour == i ? "selected" : "") +
-							'>' + i + "</option>"
-						);
-					}
-				}
-
-				$divHour.on('change', function() {
-					inst.selectedHour = $(this).val();
-					lblTime.text($.datepicker._getTimeText(inst));
-					inst.input.val($.datepicker._formatDate(inst));
-				});
-				$divMin.on('change', function() {
-					inst.selectedMinute = $(this).val();
-					lblTime.text($.datepicker._getTimeText(inst));
-					inst.input.val($.datepicker._formatDate(inst));
-				});
-				lblTime.text($.datepicker._getTimeText(inst));
 			}
+
+			$divHour.on('change', function() {
+				inst.selectedHour = $(this).val();
+				inst.input.val($.datepicker._formatDate(inst));
+			});
+			$divMin.on('change', function() {
+				inst.selectedMinute = $(this).val();
+				inst.input.val($.datepicker._formatDate(inst));
+			});
 		}
 	};
 })(jQuery);
