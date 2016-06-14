@@ -1,0 +1,8 @@
+{
+  "name": "datetimeduck",
+  "license": "MIT",
+  "main": "datetimeduck.jquery.js",
+  "dependencies": {
+    "jquery": ">=1.7"
+  }
+}
