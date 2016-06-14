@@ -256,8 +256,9 @@
 				});
 			}
 			else {
-				var $divHour = $('<select/>').appendTo(tdHour);
-				var $divMin = $('<input type="number" min="0" max="59" style="width: 2em"/>').appendTo(tdMin);
+				var $divHour = $('<label><select/>h</label>').appendTo(tdHour).find('select');
+				var $divMin = $('<label><input type="number" min="0" max="59" style="width: 2em"/>m</label>')
+					.appendTo(tdMin).find('input');
 
 				if (inst.settings.clockType == 12) {
 					$divHour.append('<option value="0">12am</option>');
@@ -268,7 +269,6 @@
 					for (var i = 1; i < 12; i++) {
 						$divHour.append('<option value="' + (i+12) + '">' + i + "</option>");
 					}
-
 				}
 				else {
 					for (var i = 0; i < 24; i++) {
