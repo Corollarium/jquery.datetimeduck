@@ -294,7 +294,6 @@
 				inst.selectedHour = inst.selectedHour || inst.currentHour;
 				inst.selectedMinute = inst.selectedMinute || inst.currentMinute;
 				if (inst.settings.clockType == 12) {
-					// TODO: selected
 					$divHour.append(
 						'<option value="0" ' + (inst.selectedHour == 0 ? "selected" : "") + '>12am</option>'
 					);
