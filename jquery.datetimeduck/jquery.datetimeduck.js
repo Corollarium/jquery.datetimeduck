@@ -265,13 +265,23 @@
 				inst.selectedMinute = inst.selectedMinute || inst.currentMinute;
 				if (inst.settings.clockType == 12) {
 					// TODO: selected
-					$divHour.append('<option value="0">12am</option>');
+					$divHour.append(
+						'<option value="0" ' + (inst.selectedHour == 0 ? "selected" : "") + '>12am</option>'
+					);
 					for (var i = 1; i < 12; i++) {
-						$divHour.append('<option value="' + i + '">' + i + '</option>');
+						$divHour.append(
+							'<option value="' + i + '" ' +
+							(inst.selectedHour == i ? "selected" : "") + '>' + i + '</option>'
+						);
 					}
-					$divHour.append('<option value="12">12pm</option>');
+					$divHour.append(
+						'<option value="12" ' + (inst.selectedHour == 0 ? "selected" : "") + '>12pm</option>'
+					);
 					for (var i = 1; i < 12; i++) {
-						$divHour.append('<option value="' + (i+12) + '">' + i + "</option>");
+						$divHour.append(
+							'<option value="' + (i+12) + '" ' +
+							(inst.selectedHour == (i+12) ? "selected" : "") + '>' + i + '</option>'
+						);
 					}
 				}
 				else {
