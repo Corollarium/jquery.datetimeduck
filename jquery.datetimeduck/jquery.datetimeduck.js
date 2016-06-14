@@ -15,6 +15,18 @@
 		options = $.extend({}, options);
 		options.showTime = true;
 		options.constrainInput = false;
+		options.onSelect = function() {
+			$(this).data('datepicker').inline = true;
+		};
+		options.onClose = function() {
+			$(this).data('datepicker').inline = false;
+		};
+
+		options.buttons = options.buttons || {};
+		options.buttons.Ok = function(sel) {
+			this._hideDatepicker();
+		};
+
 		return this.datepicker(options);
 	};
 
@@ -189,11 +201,15 @@
 
 		var self = this;
 
-		if (buttons){inst.settings['showButtonPanel'] = true;}
+		if (buttons){
+			inst.settings.showButtonPanel = true;
+		}
 
 		_updateDatepicker.apply(this, arguments);
 
-		inst.dpDiv.css({ zIndex: 1000, width: "auto" });
+		inst.dpDiv.css({
+			zIndex: 1000, width: "auto"
+		});
 		if (buttons) {
 			var panel = inst.dpDiv.find('.ui-datepicker-buttonpane:first').html('');
 
@@ -215,19 +231,27 @@
 			var table = inst.dpDiv.find('table:last');
 			var thead = table.find('thead>tr:first');
 			var tbody = table.find('tbody>tr:first');
-			var numRows = tbody.parent().children('tr').length;
 
-			var lblTime = $('<th colspan="2" style="white-space:nowrap">12:00 AM</th>').prependTo(thead);
-			lblTime.width(lblTime.width());
+			var $timeDiv = $('<div class="datepicker-time"></div>').insertAfter(table);
+
+			var lblTime = $('<time style="white-space:nowrap; padding-left: 20px;">12:00 AM</time>').prependTo($timeDiv);
 			var dpwidth = inst.dpDiv.width();
 			inst.dpDiv.width(dpwidth + lblTime.width());
 			var groups = inst.dpDiv.find('.ui-datepicker-group');
-			groups.width(dpwidth/groups.length);
-			groups.eq(groups.length-1).width(dpwidth/groups.length+lblTime.width());
+			groups.width(dpwidth / groups.length);
+			groups.eq(groups.length - 1).width(dpwidth / groups.length + lblTime.width());
 
 			var height = table.height() - table.find('td:first').height() * 2;
-			var tdMin = $('<td/>').css({ height: height, marginTop: 10 }).attr('rowspan', numRows).prependTo(tbody);
-			var tdHour = $('<td/>').css({ height: height, marginTop: 10, paddingLeft: 20 }).attr('rowspan', numRows).prependTo(tbody);
+			var tdMin = $('<span/>').css({
+				height: height,
+				marginTop: 10,
+				paddingLeft: 20
+			}).prependTo($timeDiv);
+			var tdHour = $('<span/>').css({
+				height: height,
+				marginTop: 10,
+				paddingLeft: 20
+			}).prependTo($timeDiv);
 
 			if ("slider" == "slsls") {
 				var divHour = $('<div/>').appendTo(tdHour);
@@ -259,8 +283,8 @@
 			else {
 				var $divHour = $('<label><select/>h</label>').appendTo(tdHour).find('select');
 				var $divMin = $('<label><input type="number" value="' + inst.selectedMinute +
-					'" min="0" max="59" style="width: 2em"/>m</label>')
-					.appendTo(tdMin).find('input');
+					'" min="0" max="59" style="width: 2em"/>m</label>').
+					appendTo(tdMin).find('input');
 
 				inst.selectedHour = inst.selectedHour || inst.currentHour;
 				inst.selectedMinute = inst.selectedMinute || inst.currentMinute;
