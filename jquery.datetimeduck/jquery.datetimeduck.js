@@ -292,6 +292,7 @@
 					inst.selectedMinute = $(this).val();
 					lblTime.text($.datepicker._getTimeText(inst));
 				});
+				lblTime.text($.datepicker._getTimeText(inst));
 			}
 		}
 	};
