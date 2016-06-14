@@ -27,7 +27,7 @@
   "docs": "https://github.com/Corollarium/jquery.datetimeduck",
   "keywords": ["date", "time", "datetime", "ui", "form", "jquery"],
   "spm": {
-    "main": "datetimeduck.jquery.js"
+    "main": "jquery.datetimeduck/jquery.datetimeduck.js"
   },
-  "main": "datetimeduck.jquery.js"
+  "main": "jquery.datetimeduck/jquery.datetimeduck.js"
 }
