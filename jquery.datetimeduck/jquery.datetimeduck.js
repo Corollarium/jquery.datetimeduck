@@ -274,7 +274,7 @@
 				'<span class="datepickerui-time-separator" style="padding-left: 5px; padding-right: 5px">:</span>'
 			);
 			var $divMin = $('<label><input type="number" value="' + inst.selectedMinute +
-				'" min="0" max="59" style="width: 2em"/></label>').
+				'" min="0" max="59" style="width: 3em !important;"/></label>').
 				appendTo(tdMin).find('input');
 
 			inst.selectedHour = inst.selectedHour || inst.currentHour;
