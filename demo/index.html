@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<link  rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css">
+	<script src="../jquery.datetimeduck/jquery.datetimeduck.js"></script>
+</head>
+<body>
+<h1>Jquery Datetimeduck Demo</h1>
+
+<form>
+	<label for="demo12-input">Click to select (12 hour format)</label>
+	<input class="datetime" type="text" id="demo12-input" />
+
+	<br/>
+
+	<label for="demo24-input">Click to select (24 hour format)</label>
+	<input class="datetime" type="text" id="demo24-input" />
+
+	<br/>
+
+	<label for="demo24-alternate-input">Click to select (ISO format in target field)</label>
+	<input class="datetime" type="text" id="demo24-alternate-input" />
+	<input type="text" id="demo24-alternate-input-target" readonly />
+</form>
+
+<script>
+$('#demo12-input').datetimepicker({ 
+	clockType: 12,
+	showTime: true
+});
+
+$('#demo24-input').datetimepicker({ 
+	clockType: 24,
+	showTime: true
+});
+
+$('#demo24-alternate-input').datetimepicker({ 
+	clockType: 24,
+	altField: $('#demo24-alternate-input-target'),
+	altFormat: 'yy-mm-dd',
+	altFormatSeparator: 'T',
+	showTime: true
+});
+</script>
+
+
+</body>
+</html>
