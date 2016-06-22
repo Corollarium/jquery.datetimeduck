@@ -28,6 +28,7 @@ It accepts all options from http://jqueryui.com/datepicker/ and a few others:
 - *clockType*: 12 or 24. Default: 12
 - *showTime*: true or false. Controls whether to show time.
 - *altFormatSeparator*: used between date and time. Defaults to ' ' (useful for ISO8601) 
+- *timeLabel*: the label used for the time inputs
 
 ```
 <label>Datetime: <input type="text" id="datetime" value="2012-01-31 10:20:00" />/label>
@@ -37,5 +38,6 @@ $('#datetime').datetimepicker({clockType: 24});
 </script>
 ```
 
+Demo: https://rawgit.com/Corollarium/jquery.datetimeduck/master/demo/index.html
 ![Screenshot](https://raw.githubusercontent.com/Corollarium/jquery.datetimeduck/master/screenshot.png "Screenshot")
 
