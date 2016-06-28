@@ -3,6 +3,9 @@ jquery.datetimeduck
 
 Jquery datetime picker plugin based on Jquery UI Datepicker
 
+Demo: https://rawgit.com/Corollarium/jquery.datetimeduck/master/demo/index.html
+![Screenshot](https://raw.githubusercontent.com/Corollarium/jquery.datetimeduck/master/screenshot.png "Screenshot")
+
 This plugin uses a "duck punching" technique, extending JQuery's UI Datepicker
 and adding hour and minute selectors to it. Short! Simple! Just like you expected
 from JQuery UI! 
@@ -37,7 +40,3 @@ It accepts all options from http://jqueryui.com/datepicker/ and a few others:
 $('#datetime').datetimepicker({clockType: 24});
 </script>
 ```
-
-Demo: https://rawgit.com/Corollarium/jquery.datetimeduck/master/demo/index.html
-![Screenshot](https://raw.githubusercontent.com/Corollarium/jquery.datetimeduck/master/screenshot.png "Screenshot")
-
