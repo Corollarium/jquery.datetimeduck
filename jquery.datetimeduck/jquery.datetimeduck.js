@@ -274,7 +274,7 @@
 				'<span class="datepickerui-time-separator" style="padding-left: 5px; padding-right: 5px">:</span>'
 			);
 			var $divMin = $('<label><input type="number" value="' + inst.selectedMinute +
-				'" min="0" max="59" style="width: 3em !important;"/></label>').
+				'" min="0" max="59" pattern="[0-5][0-9]" style="width: 3em !important;"/></label>').
 				appendTo(tdMin).find('input');
 
 			inst.selectedHour = inst.selectedHour || inst.currentHour;
@@ -316,7 +316,12 @@
 				$.datepicker._updateAlternate(inst);
 			});
 			$divMin.on('change', function() {
-				inst.selectedMinute = $(this).val();
+				var i = parseInt($(this).val(), 10);
+				if (isNaN(i) || i < 0 || i > 59) {
+					i = 0;
+				}
+				$divMin.val(i);
+				inst.selectedMinute = i;
 				inst.input.val($.datepicker._formatDate(inst));
 				$.datepicker._updateAlternate(inst);
 			});
