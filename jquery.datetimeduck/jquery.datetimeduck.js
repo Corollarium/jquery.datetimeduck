@@ -313,10 +313,12 @@
 			$divHour.on('change', function() {
 				inst.selectedHour = $(this).val();
 				inst.input.val($.datepicker._formatDate(inst));
+				$.datepicker._updateAlternate(inst);
 			});
 			$divMin.on('change', function() {
 				inst.selectedMinute = $(this).val();
 				inst.input.val($.datepicker._formatDate(inst));
+				$.datepicker._updateAlternate(inst);
 			});
 		}
 	};
