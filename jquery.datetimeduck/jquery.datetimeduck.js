@@ -269,7 +269,8 @@
 			}).prependTo($timeDiv);
 
 			tdHour.append(timeLabel);
-			var $divHour = $('<select class="ui-datepicker-hour"/></label>').appendTo(tdHour).find('select');
+			var $divHour = $('<select class="ui-datepicker-hour"></select>').appendTo(tdHour);
+			console.log($divHour);
 			tdHour.append(
 				'<span class="ui-datepicker-time-separator" style="padding-left: 5px; padding-right: 5px">:</span>'
 			);
