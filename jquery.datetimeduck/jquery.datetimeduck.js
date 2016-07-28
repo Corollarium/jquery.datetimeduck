@@ -270,14 +270,13 @@
 
 			tdHour.append(timeLabel);
 			var $divHour = $('<select class="ui-datepicker-hour"></select>').appendTo(tdHour);
-			console.log($divHour);
 			tdHour.append(
 				'<span class="ui-datepicker-time-separator" style="padding-left: 5px; padding-right: 5px">:</span>'
 			);
 			var $divMin = $('<input class="ui-datepicker-minute" type="number" value="' + 
 				inst.selectedMinute +
 				'" min="0" max="59" pattern="[0-5][0-9]" style="width: 3em !important;"/>').
-				appendTo(tdMin).find('input');
+				appendTo(tdMin);
 
 			inst.selectedHour = inst.selectedHour || inst.currentHour;
 			inst.selectedMinute = inst.selectedMinute || inst.currentMinute;
