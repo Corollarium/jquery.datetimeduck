@@ -273,7 +273,7 @@
 			tdHour.append(
 				'<span class="ui-datepicker-time-separator" style="padding-left: 5px; padding-right: 5px">:</span>'
 			);
-			var $divMin = $('<input class="ui-datepicker-minute" type="number" value="' + 
+			var $divMin = $('<input class="ui-datepicker-minute" type="number" value="' +
 				inst.selectedMinute +
 				'" min="0" max="59" pattern="[0-5][0-9]" style="width: 3em !important;"/>').
 				appendTo(tdMin);
@@ -292,7 +292,7 @@
 					);
 				}
 				$divHour.append(
-					'<option value="12" ' + (inst.selectedHour == 0 ? "selected" : "") + '>12 pm</option>'
+					'<option value="12" ' + (inst.selectedHour == 12 ? "selected" : "") + '>12 pm</option>'
 				);
 				for (var i = 1; i < 12; i++) {
 					$divHour.append(
