@@ -245,7 +245,7 @@
 			}
 		}
 
-		if (showTime) {
+		if (showTime && inst.dpDiv.find('.datepicker-time').length == 0) {
 			var table = inst.dpDiv.find('table:last');
 			var thead = table.find('thead>tr:first');
 			var tbody = table.find('tbody>tr:first');
